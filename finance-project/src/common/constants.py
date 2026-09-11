@@ -2,12 +2,17 @@
 import pandas as pd
 from pathlib import Path
 
-
 def resolve_data_root():
     return Path(__file__).resolve().parents[2] / "data"
+
+def resolve_config_root():
+    return Path(__file__).resolve().parents[2] / "config"
     
 def get_path(subpath=""):
     return resolve_data_root() / subpath
+
+def get_config_path(subpath=""):
+    return resolve_config_root() / subpath
 
 def get_stocks_data():
     df_stocks = pd.read_csv(get_path("stocks_daily_rets_v2.csv"))
@@ -24,6 +29,12 @@ def get_portfolio_daily_values_and_returns():
 
 def get_ff3():    
     df = pd.read_csv(get_path("F-F_Research_Data_Factors_daily.csv"), skiprows=4, skipfooter=2, engine="python", parse_dates=[0])
+    df.rename(columns={df.columns[0]: "date"}, inplace=True)
+    df.loc[:, df.columns != "date"] /= 100
+    return df
+
+def get_mom_faily():    
+    df = pd.read_csv(get_path("F-F_Momentum_Factor_daily.csv"), skiprows=13, skipfooter=2, engine="python", parse_dates=[0])
     df.rename(columns={df.columns[0]: "date"}, inplace=True)
     df.loc[:, df.columns != "date"] /= 100
     return df

@@ -6,10 +6,10 @@ from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 from alpaca.data.enums import Adjustment
 
-from common.constants import get_path
+from common.constants import get_config_path
 
 def get_alpaca_config():
-    with open(get_path("alpaca_config.json")) as f:
+    with open(get_config_path("alpaca_config.json")) as f:
         return json.load(f)
 
 def get_daily_stock_prices(tickers, adjustment="ALL"):
